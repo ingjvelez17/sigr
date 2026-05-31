@@ -5,7 +5,7 @@
 **Fecha de creación:** 31/05/2026
 **Repositorio:** https://github.com/ingjvelez17/sigr
 **Rama estable:** `main`
-**Commit etiquetado:** `e06d37d` (ver `git rev-parse v1.0.0-baseline`)
+**Commit etiquetado:** ver `git rev-parse v1.0.0-baseline^{}`
 **Validado por:** Juan Esteban Vélez Vanegas (rol de desarrollo)
 **Aprobado por:** Juan Esteban Vélez Vanegas (rol coordinador designado)
 **Estado:** Aprobada
@@ -95,8 +95,8 @@ SemVer en formato `MAJOR.MINOR.PATCH[-tag]`. Tags inmutables para líneas base c
 ## 4. Evidencia y trazabilidad
 
 - Tag: `v1.0.0-baseline` en `main`.
-- Hash del commit etiquetado: `e06d37d` (largo: `e06d37d885ff2e25bb6f84dc94622090b2c0add9`).
 - Comando que creó el tag: `git tag -a v1.0.0-baseline -m "Linea base SIGR v1.0.0"`.
+- Para conocer el commit y el hash apuntado por el tag: `git rev-parse v1.0.0-baseline^{}`.
 - Esquema SQL: `database/schema.sql`.
 - ERD del modelo de datos: `docs/estructura_bd.md`.
 - Manual de despliegue: `docs/manual_despliegue.md`.
