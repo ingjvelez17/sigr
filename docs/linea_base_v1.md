@@ -7,7 +7,7 @@
 | Fecha de creación | 31/05/2026 |
 | Repositorio | https://github.com/ingjvelez17/sigr |
 | Rama estable | `main` |
-| Commit de referencia | ver `git rev-parse v1.0.0-baseline` |
+| Commit de referencia | `e06d37d` (ver `git rev-parse v1.0.0-baseline`) |
 | Validado por | Desarrollo (Juan Esteban Vélez Vanegas) |
 | Responsable de aprobación | Juan Esteban Vélez Vanegas (rol designado) |
 | Estado | Aprobada |
@@ -125,6 +125,7 @@ SemVer `MAJOR.MINOR.PATCH[-tag]`. Tags inmutables para líneas base con sufijo `
 | Artefacto | Ubicación |
 | --- | --- |
 | Tag de la línea base | `v1.0.0-baseline` en `main` |
+| Hash del commit etiquetado | `e06d37d` |
 | Comando de creación del tag | `git tag -a v1.0.0-baseline -m "Línea base SIGR v1.0.0"` |
 | Esquema SQL ejecutable | `database/schema.sql` |
 | Diagrama ERD | `docs/estructura_bd.md` |
