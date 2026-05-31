@@ -1,43 +1,42 @@
 # Objetivo del Taller
 
-El taller tiene como propósito establecer formalmente la primera línea base del Sistema Integral de Gestión de Restaurante (SIGR), aplicando los principios de Gestión de Configuración del Software vistos en la Unidad 2 del curso *Gestión del Software*. La línea base constituye el primer hito de estabilidad del proyecto y será el punto de referencia sobre el cual se construirán las futuras validaciones, controles de cambio y entregas.
+El taller busca aplicar lo visto en la Unidad 2 de Gestión del Software en un caso concreto: establecer formalmente la primera línea base del SIGR. No se trata sólo de etiquetar un commit con Git, sino de pasar por todo el proceso —identificar qué se incluye, definir criterios de aceptación, documentar el estado y dejar registrada la aprobación—.
 
 ## Objetivos específicos
 
-Al finalizar el taller se busca que el desarrollador sea capaz de:
+Al terminar el taller se espera haber logrado:
 
-1. Identificar los ítems de configuración que componen un sistema de software fullstack: código fuente, modelo de datos, documentación y scripts de despliegue.
-2. Definir y aprobar una línea base funcional, congelando un estado específico del producto mediante un tag anotado de Git (`v1.0.0-baseline`) asociado a un commit concreto.
-3. Documentar técnicamente la línea base de manera reproducible, auditable y comprensible para quien retome el proyecto en el futuro.
-4. Aplicar versionado semántico (SemVer) para comunicar la naturaleza de los cambios entre versiones.
-5. Diseñar un flujo de control de versiones con Git que incluya estrategia de ramas, convenciones de mensajes de commit, política de Pull Requests y proceso de creación de tags de línea base.
-6. Definir criterios de aceptación verificables que el código debe cumplir para ser considerado parte de la línea base.
-7. Establecer un proceso formal de validación y aprobación con los roles responsables claramente diferenciados.
+- Identificar cuáles son los ítems de configuración (CI) de un sistema fullstack: no sólo el código, también el esquema de la BD, los archivos de variables de entorno, los scripts de despliegue y la documentación.
+- Definir una línea base funcional aprobada, materializada en un tag anotado de Git (`v1.0.0-baseline`) sobre un commit específico de la rama estable.
+- Documentar la línea base de modo que cualquier persona pueda reconstruirla en otro equipo sin información adicional.
+- Aplicar versionado semántico (SemVer 2.0.0) para que el número de versión comunique por sí solo el tipo de cambio.
+- Diseñar un flujo de control de versiones con Git que cubra estrategia de ramas, convención de mensajes de commit, política de Pull Requests y tagging de línea base.
+- Definir criterios de aceptación verificables (no "que esté bonito", sino afirmaciones que puedan marcarse cumple/no cumple).
+- Establecer un proceso de validación y aprobación con responsables claros, incluso cuando el equipo es de una sola persona.
 
-## Competencias reforzadas
+## Competencias del curso reforzadas
 
-| Competencia | Evidencia en el entregable |
+| Competencia | Cómo aparece en el entregable |
 | --- | --- |
-| Gestión de configuración | Definición de ítems, tagging, política de cambios |
+| Gestión de configuración | Inventario de CI, tagging, política de cambios |
 | Documentación técnica | README, CHANGELOG, ERD, manual de despliegue |
 | Planificación de versiones | Adopción de SemVer y de Keep a Changelog |
-| Trabajo con Git | GitHub Flow, PRs revisados, squash merge |
+| Trabajo con Git | Estrategia de ramas, Conventional Commits, PRs |
 | Aseguramiento de calidad | Criterios de aceptación verificables |
-| Comunicación técnica | Tabla de endpoints, manual operativo |
 
 ## Alcance
 
-La línea base comprende los cinco módulos críticos del sistema:
+La línea base v1.0.0 cubre los cinco módulos críticos del sistema:
 
 1. Autenticación con roles diferenciados (cliente, mesero, administrador).
 2. Menú digital con CRUD de platos y categorías.
-3. Registro y seguimiento de pedidos en tiempo real.
-4. Reservas por fecha y hora.
-5. Cierre de caja y reportes diarios de ventas.
+3. Pedidos en tiempo real con notificación a cocina vía Socket.IO.
+4. Reservas por fecha, hora y mesa con control anti-colisión.
+5. Cierre de caja por turno y reporte diario de ventas.
 
-Quedan fuera del alcance de esta versión, y se posponen para iteraciones posteriores:
+Quedan fuera del alcance de esta versión, para no inflar el primer hito:
 
 - Facturación electrónica (DIAN).
-- Integración con pasarelas de pago.
+- Integración con pasarelas de pago (PSE, tarjetas, billeteras).
 - Aplicación móvil nativa.
-- Dashboards predictivos.
+- Reportes predictivos / BI avanzado.

@@ -1,34 +1,29 @@
 # SIGR — Sistema Integral de Gestión de Restaurante
 
-Aplicación web fullstack para la administración de un restaurante: autenticación con roles, menú digital, pedidos en tiempo real, reservas y cierre de caja con reportes de ventas.
+Aplicación web fullstack para administrar la operación diaria de un restaurante: autenticación con roles, menú digital, pedidos en tiempo real, reservas y cierre de caja con reportes de ventas.
 
-| Atributo | Valor |
-| --- | --- |
-| Versión | `v1.0.0-baseline` |
-| Repositorio | https://github.com/ingjvelez17/sigr |
-| Rama estable | `main` |
-| Autor | Juan Esteban Vélez Vanegas |
-| Licencia | MIT |
+- Versión: `v1.0.0-baseline`
+- Repositorio: https://github.com/ingjvelez17/sigr
+- Autor: Juan Esteban Vélez Vanegas
+- Licencia: MIT
 
 ## Módulos
 
-- Autenticación con JWT (clientes, meseros, administrador).
+- Autenticación con JWT y roles cliente / mesero / administrador.
 - Menú digital con CRUD de platos y categorías.
-- Registro y seguimiento de pedidos en tiempo real (Socket.IO).
+- Pedidos en tiempo real con notificación por Socket.IO.
 - Reservas por fecha, hora y mesa.
-- Cierre de caja y reportes diarios de ventas.
+- Cierre de caja por turno y reportes diarios de ventas.
 
 ## Stack
 
-- Backend: Node.js 18+, Express 4, JWT, bcryptjs, Socket.IO.
-- Frontend: React 18, React Router 6, Vite 5, Axios.
-- Base de datos: PostgreSQL 14+ (driver `pg`).
-- Otros: dotenv, morgan, cors.
+Backend: Node.js 18+, Express 4, bcryptjs, jsonwebtoken, Socket.IO, dotenv, morgan, cors.
+Frontend: React 18, React Router 6, Vite 5, Axios.
+Base de datos: PostgreSQL 14+ (driver `pg`).
 
-## Requisitos previos
+## Requisitos
 
-- Node.js >= 18
-- npm >= 9
+- Node.js >= 18 y npm >= 9
 - PostgreSQL >= 14
 - Git
 
@@ -40,20 +35,22 @@ psql --version
 
 ## Instalación
 
+Clonar el repo y descargar dependencias:
+
 ```bash
 git clone https://github.com/ingjvelez17/sigr.git
 cd sigr
 npm run install:all
 ```
 
-Crear la base de datos y cargar el esquema:
+Crear la base de datos y cargar el esquema con seed:
 
 ```bash
 createdb sigr_db
 psql -d sigr_db -f database/schema.sql
 ```
 
-O usar el script abreviado:
+O el script equivalente:
 
 ```bash
 npm run db:setup
@@ -61,7 +58,7 @@ npm run db:setup
 
 ## Variables de entorno
 
-Copiar los `.env.example` y completarlos:
+Copiar los `.env.example` y completar:
 
 ```bash
 cp backend/.env.example backend/.env
@@ -70,38 +67,36 @@ cp frontend/.env.example frontend/.env
 
 ### `backend/.env`
 
-| Variable | Descripción | Ejemplo |
+| Variable | Descripción | Valor por defecto |
 | --- | --- | --- |
 | `PORT` | Puerto del API | `4000` |
-| `NODE_ENV` | Entorno de ejecución | `development` |
+| `NODE_ENV` | Entorno | `development` |
 | `FRONTEND_URL` | Origen permitido por CORS | `http://localhost:5173` |
 | `DB_HOST` | Host de PostgreSQL | `localhost` |
 | `DB_PORT` | Puerto PostgreSQL | `5432` |
 | `DB_NAME` | Nombre de la base | `sigr_db` |
 | `DB_USER` | Usuario PostgreSQL | `postgres` |
-| `DB_PASSWORD` | Contraseña PostgreSQL | `postgres` |
-| `JWT_SECRET` | Secreto para firmar tokens JWT | `cambia_este_secreto` |
+| `DB_PASSWORD` | Contraseña PostgreSQL | (sin valor) |
+| `JWT_SECRET` | Secreto para firmar JWT | (cambiar en producción) |
 | `JWT_EXPIRES_IN` | Expiración del token | `8h` |
 | `BCRYPT_ROUNDS` | Costo bcrypt | `10` |
 
 ### `frontend/.env`
 
-| Variable | Descripción | Ejemplo |
+| Variable | Descripción | Valor por defecto |
 | --- | --- | --- |
 | `VITE_API_URL` | URL del API | `http://localhost:4000/api` |
 | `VITE_SOCKET_URL` | URL del socket | `http://localhost:4000` |
 
 ## Ejecución
 
-Desarrollo:
+Desarrollo (levanta backend y frontend en paralelo):
 
 ```bash
 npm run dev
 ```
 
-Levanta backend (`:4000`) y frontend (`:5173`) en paralelo.
-
-Manual:
+Si se prefiere por separado:
 
 ```bash
 cd backend && npm run dev    # terminal 1
@@ -133,7 +128,7 @@ Base URL: `http://localhost:4000/api`
 | POST | `/auth/logout` | JWT | Cierra la sesión |
 | GET | `/menu/categories` | público | Lista categorías |
 | POST | `/menu/categories` | admin | Crea categoría |
-| GET | `/menu/items` | público | Lista platos (filtros: `available`, `categoryId`) |
+| GET | `/menu/items` | público | Lista platos |
 | POST | `/menu/items` | admin | Crea plato |
 | PUT | `/menu/items/:id` | admin | Actualiza plato |
 | DELETE | `/menu/items/:id` | admin | Elimina plato |
@@ -146,7 +141,7 @@ Base URL: `http://localhost:4000/api`
 | PATCH | `/reservations/:id/status` | mesero/admin | Cambia estado |
 | POST | `/reports/cash/open` | mesero/admin | Abre caja |
 | POST | `/reports/cash/:id/close` | mesero/admin | Cierra caja |
-| GET | `/reports/daily` | admin | Reporte diario (`date=YYYY-MM-DD`) |
+| GET | `/reports/daily` | admin | Reporte diario |
 
 ## Estructura del proyecto
 
@@ -158,72 +153,34 @@ sigr/
 │   │   ├── controllers/    # Lógica HTTP
 │   │   ├── middlewares/    # JWT y autorización
 │   │   ├── models/         # Acceso a datos
-│   │   └── routes/         # Definición de endpoints
+│   │   └── routes/         # Endpoints
 │   ├── server.js
-│   ├── package.json
-│   └── .env.example
+│   └── package.json
 ├── frontend/               # SPA React + Vite
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── services/       # axios + AuthContext
-│   ├── index.html
-│   ├── vite.config.js
-│   ├── package.json
-│   └── .env.example
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       └── services/
 ├── database/
-│   └── schema.sql          # Esquema PostgreSQL + seed
-├── docs/
-│   ├── portada.md
-│   ├── introduccion.md
-│   ├── objetivo_taller.md
-│   ├── estructura_bd.md
-│   ├── manual_despliegue.md
-│   ├── control_versiones.md
-│   └── linea_base_v1.md
+│   └── schema.sql
+├── docs/                   # Documentación del taller
 ├── README.md
 ├── CHANGELOG.md
 ├── LICENSE.txt
 └── package.json
 ```
 
-## Flujo principal
+## Documentación adicional
 
-```
-   +-----------+      JWT       +------------+      SQL       +--------------+
-   | Cliente   | -------------> |  Express   | -------------> | PostgreSQL   |
-   | (React)   | <------------- |  API REST  | <------------- |              |
-   +-----------+   JSON / WS    +------------+                +--------------+
-        |                              |
-        |       Socket.IO push         |
-        +------------------------------+
-                (pedidos en tiempo real
-                 a cocina y mesero)
-```
-
-Flujo de un pedido:
-
-```
-[Cliente] --POST /orders--> [API] --INSERT--> [PostgreSQL]
-                                |
-                                +--socket.emit("order:new")--> [Cocina]
-                                                                  |
-                       [Mesero] <--socket.emit("order:updated")---+
-```
-
-## Documentación complementaria
-
-| Documento | Ruta |
-| --- | --- |
-| Portada | `docs/portada.md` |
-| Introducción | `docs/introduccion.md` |
-| Objetivo del taller | `docs/objetivo_taller.md` |
-| Estructura de la BD (ERD) | `docs/estructura_bd.md` |
-| Manual de despliegue | `docs/manual_despliegue.md` |
-| Control de versiones | `docs/control_versiones.md` |
-| Línea base v1.0.0 | `docs/linea_base_v1.md` |
-| Historial de cambios | `CHANGELOG.md` |
+- Portada del taller: `docs/portada.md`
+- Introducción: `docs/introduccion.md`
+- Objetivo del taller: `docs/objetivo_taller.md`
+- Modelo de datos (ERD): `docs/estructura_bd.md`
+- Manual de despliegue: `docs/manual_despliegue.md`
+- Control de versiones: `docs/control_versiones.md`
+- Documento de línea base v1.0.0: `docs/linea_base_v1.md`
+- Historial de cambios: `CHANGELOG.md`
 
 ## Licencia
 
-Distribuido bajo licencia MIT. Ver [`LICENSE.txt`](./LICENSE.txt).
+MIT. Ver `LICENSE.txt`.

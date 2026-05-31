@@ -1,43 +1,27 @@
 # Introducción
 
-Una línea base en ingeniería de software es un conjunto de artefactos —código, modelo de datos, documentación y configuración— que ha sido revisado y aprobado formalmente, y que en adelante sólo puede modificarse mediante un procedimiento controlado de cambios. Es el punto fijo al que todos los participantes del proyecto se refieren cuando hablan de "la versión actual del producto".
+Una línea base es un conjunto de artefactos —código, modelo de datos, configuración y documentación— que ha sido revisado y aprobado, y que de ahí en adelante sólo puede modificarse mediante un proceso controlado. En la práctica, es el punto fijo al que todos vuelven cuando se habla de "la versión actual del producto".
 
-Establecer una línea base temprano en el ciclo de vida no es un trámite administrativo: es lo que hace posible que cualquier integrante futuro pueda reconstruir el mismo estado del sistema, que las auditorías encuentren un punto de partida estable, y que la gestión de cambios deje de ser una conversación informal y se convierta en un proceso trazable.
+Establecerla temprano sirve para reconstruir el sistema en otro entorno sin sorpresas, para que cualquiera que entre al proyecto después tenga un punto de partida claro, y para que las decisiones de cambio dejen de discutirse de memoria y empiecen a quedar registradas.
 
-## Sobre el sistema SIGR
+## Sobre el sistema
 
-El Sistema Integral de Gestión de Restaurante (SIGR) cubre las operaciones diarias de un restaurante mediano: autenticación de los actores que intervienen (clientes, meseros y administrador), un menú digital editable, registro y seguimiento de pedidos hacia cocina, reservas con control de mesa por fecha y hora, y cierre de caja con reportes diarios de ventas.
+El SIGR es una aplicación web para administrar la operación diaria de un restaurante mediano. La versión 1.0.0 incluye los cinco módulos que se consideran críticos para arrancar: autenticación de usuarios, menú digital, pedidos en tiempo real, reservas y cierre de caja con reportes.
 
-La versión 1.0.0 contiene los cinco módulos críticos comprometidos en la planeación inicial y constituye la primera entrega funcionalmente completa del producto. Antes de iniciar la siguiente iteración —que sumará facturación electrónica y pagos en línea— es imprescindible congelar el estado actual, documentarlo y aprobarlo formalmente.
+Esta es la primera entrega funcionalmente completa del producto. Antes de iniciar la siguiente iteración —que incluirá facturación y pasarela de pagos— se congela el estado actual y se documenta formalmente como línea base.
 
-## Alcance del documento
+## Qué contiene este informe
 
-El presente informe documenta esa línea base y comprende:
+El documento sigue la estructura de la guía del taller. Después de esta introducción vienen el objetivo del taller y el contenido técnico, organizado en siete subsecciones que cubren: la descripción del proyecto, los componentes incluidos en la línea base, la estrategia de versionado con Git, los criterios usados para aprobarla, las herramientas de soporte, la documentación asociada y la validación final.
 
-- Portada, introducción y objetivo del taller.
-- Descripción del proyecto y de los componentes incluidos.
-- Estrategia de versionado con Git y herramientas de soporte.
-- Criterios de aceptación verificados.
-- Documentación asociada (README, CHANGELOG, licencia, modelo de datos, manual de despliegue).
-- Validación y aprobación firmada del entregable.
+El código fuente, el `schema.sql` y los archivos `.md` referenciados están publicados en el repositorio:
 
-## Justificación académica
+> https://github.com/ingjvelez17/sigr
 
-El trabajo aplica los conceptos de la Unidad 2 del curso *Gestión del Software*: identificación de ítems de configuración, definición y aprobación de una línea base, adopción de un modelo de ramas en Git, uso de versionado semántico y de la convención Keep a Changelog, y establecimiento de un flujo de Pull Request como mecanismo de control de calidad antes de incorporar cambios a la rama estable.
+El tag `v1.0.0-baseline` apunta al commit que congela esta versión.
 
-## Lectura recomendada
+## Sobre las decisiones de diseño
 
-Para evaluar el entregable se sugiere recorrer los documentos en este orden:
+El stack elegido (Node.js + Express + React + PostgreSQL) responde a tres criterios: ecosistema maduro con documentación abundante, facilidad para levantar el entorno de desarrollo, y soporte nativo de las características que la operación de restaurante necesita —especialmente la comunicación en tiempo real con la cocina vía WebSocket, que se resuelve con Socket.IO sin agregar servicios externos.
 
-1. Portada (`docs/portada.md`).
-2. Introducción (este documento).
-3. Objetivo del taller (`docs/objetivo_taller.md`).
-4. README — visión técnica del producto.
-5. `docs/linea_base_v1.md` — artefacto central de la entrega.
-6. `docs/control_versiones.md` — evidencia del dominio de SCM.
-7. `docs/estructura_bd.md` — diseño del modelo de datos.
-8. `docs/manual_despliegue.md` — operación en producción.
-9. `CHANGELOG.md` — historial detallado.
-10. Código fuente y `database/schema.sql` como soporte material.
-
-El proyecto adopta [Semantic Versioning 2.0.0](https://semver.org/). El sufijo `-baseline` indica una versión congelada y aprobada formalmente, no una pre-release.
+Las convenciones de código (camelCase para JavaScript, snake_case para SQL, Conventional Commits para Git) no son arbitrarias: son las que la mayoría del ecosistema usa, lo que facilita que un nuevo desarrollador entienda el proyecto sin tener que aprender reglas propias.
